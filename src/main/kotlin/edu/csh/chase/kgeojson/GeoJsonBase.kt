@@ -1,5 +1,8 @@
 package edu.csh.chase.kgeojson
 
-abstract class GeoJsonBase(val type: GeoJsonType) {
+import edu.csh.chase.kgeojson.coordinatereferencesystem.CoordinateReferenceSystem
+
+abstract class GeoJsonBase(val type: GeoJsonType, val coordinateReferenceSystem: CoordinateReferenceSystem?) {
+
 
 }
