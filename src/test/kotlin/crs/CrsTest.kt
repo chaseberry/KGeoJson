@@ -55,4 +55,20 @@ class CrsTest {
         assertNull(linkedCrs.linkType)
     }
 
+    @Test fun testFullLinkedCrs() {
+        val crsObject = json(
+                "type" to "link",
+                "properties" to json(
+                        "href" to "http://example.com",
+                        "type" to "proj4"
+                )
+        )
+        val linkedCrs = GeoJson.parseCoordinateReferenceSystem(crsObject)
+        assertNotNull(linkedCrs)
+        assertTrue(linkedCrs is LinkedCoordinateReferenceSystem)
+        assertEquals(CoordinateReferenceSystemType.Link, linkedCrs!!.type)
+        assertEquals(URI("http://example.com"), (linkedCrs as LinkedCoordinateReferenceSystem).href)
+        assertEquals("proj4", linkedCrs.linkType)
+    }
+
 }
