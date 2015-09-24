@@ -1,4 +1,4 @@
-package edu.csh.chase.kgeojson
+package edu.csh.chase.kgeojson.coordinatereferencesystem
 
 public enum class CoordinateReferenceSystemType {
     Name,

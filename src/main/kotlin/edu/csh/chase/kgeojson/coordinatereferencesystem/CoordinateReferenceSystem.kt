@@ -1,0 +1,3 @@
+package edu.csh.chase.kgeojson.coordinatereferencesystem
+
+abstract class CoordinateReferenceSystem(val type: CoordinateReferenceSystemType)
