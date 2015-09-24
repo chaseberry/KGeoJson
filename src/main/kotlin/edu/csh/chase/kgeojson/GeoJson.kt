@@ -20,6 +20,7 @@ public object GeoJson {
     fun parsePoint(geoObject: JsonObject): GeoJsonPoint? {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
         val position = positionFromJson(coordinates) ?: return null
+        return null
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {

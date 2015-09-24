@@ -1,5 +1,6 @@
 package edu.csh.chase.kgeojson
 
-class GeoJsonPoint : GeoJsonBase(GeoJsonType.Point) {
+//TODO added null as the CRS so we compile for testing
+class GeoJsonPoint : GeoJsonBase(GeoJsonType.Point, null) {
 
 }
