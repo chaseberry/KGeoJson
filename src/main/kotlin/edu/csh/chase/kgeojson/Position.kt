@@ -4,10 +4,10 @@ import edu.csh.chase.kjson.JsonArray
 
 //TODO Add support for N arguments past the x, y, z
 
-data class Position(val x: Double, val y: Double, val z: Double?) {
+public data class Position(val x: Double, val y: Double, val z: Double?) {
 
     //TODO is the number of dimensions == size of the position array?
-    val dimensions: Int = if ( z == null) 2 else 3
+    public val dimensions: Int = if ( z == null) 2 else 3
 
 }
 
