@@ -44,6 +44,18 @@ public object GeoJson {
         return GeoJsonPoint(position, geoObject, crs, bbox)
     }
 
+    private fun parseMutliPoint(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonMutliPoint? {
+        val coordinates = geoObject.getJsonArray("coordinates") ?: return null
+        val points: List<Position> = coordinates.map {
+            if (it is JsonArray) {
+                positionFromJson(it)
+            } else {
+                null
+            }
+        }.filterNotNull()
+        return GeoJsonMutliPoint(Array(points.size()) { points[it] }, geoObject, crs, bbox)
+    }
+
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {
         val type = crsObject.getString("type") ?: return null
         return when (type) {
