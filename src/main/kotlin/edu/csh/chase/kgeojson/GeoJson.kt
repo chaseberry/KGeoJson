@@ -9,14 +9,11 @@ import edu.csh.chase.kjson.JsonArray
 import edu.csh.chase.kjson.JsonObject
 import java.net.URI
 import java.net.URISyntaxException
-import java.util.*
 
 public object GeoJson {
 
     fun parse(geoObject: JsonObject): GeoJsonBase? {
         val type = geoObject.getString("type") ?: return null
-        val properties = HashMap<String, Any?>()
-        geoObject.forEach { properties[it.key] = it.value }
 
         val crs = if ("crs" in geoObject) {
             if (geoObject.isNull("crs")) {
@@ -36,18 +33,15 @@ public object GeoJson {
         }
 
         return when (type) {
-            "Point" -> parsePoint(geoObject, crs, bbox, properties)
+            "Point" -> parsePoint(geoObject, crs, bbox)
             else -> null
         }
     }
 
-    private fun parsePoint(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?,
-                           properties: HashMap<String, Any?>): GeoJsonPoint? {
+    private fun parsePoint(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonPoint? {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
         val position = positionFromJson(coordinates) ?: return null
-        properties.remove("type")
-        properties.remove("coordinates")
-        return GeoJsonPoint(position, properties, crs, bbox)
+        return GeoJsonPoint(position, geoObject, crs, bbox)
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {
