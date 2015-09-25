@@ -18,8 +18,13 @@ public object GeoJson {
         val properties = HashMap<String, Any?>()
         geoObject.forEach { properties[it.key] = it.value }
 
-        val crs = if (geoObject.getJsonObject("crs") != null) {
-            parseCoordinateReferenceSystem(geoObject.getJsonObject("crs")!!)
+        val crs = if ("crs" in geoObject) {
+            if (geoObject.isNull("crs")) {
+                UnknownCoordinateReferenceSystem()
+            } else {
+                //TODO Type check this?
+                parseCoordinateReferenceSystem(geoObject.getJsonObject("crs")!!)
+            }
         } else {
             null
         }
@@ -46,9 +51,6 @@ public object GeoJson {
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {
-        if (crsObject.isNull("type")) {
-            return UnknownCoordinateReferenceSystem()
-        }
         val type = crsObject.getString("type") ?: return null
         return when (type) {
             "name" -> parseCrsName(crsObject)
