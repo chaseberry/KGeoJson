@@ -6,7 +6,7 @@ import edu.csh.chase.kjson.JsonArray
 
 public data class Position(val x: Double, val y: Double, val z: Double?) {
 
-    //TODO is the number of dimensions == size of the position array?
+    //TODO is the number of dimensions == size of the position array? Do args past z count?
     public val dimensions: Int = if ( z == null) 2 else 3
 
 }
