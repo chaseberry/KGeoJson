@@ -4,6 +4,7 @@ import edu.csh.chase.kgeojson.boundingbox.BoundingBox
 import edu.csh.chase.kgeojson.coordinatereferencesystem.CoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.LinkedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.NamedCoordinateReferenceSystem
+import edu.csh.chase.kgeojson.coordinatereferencesystem.UnknownCoordinateReferenceSystem
 import edu.csh.chase.kjson.JsonArray
 import edu.csh.chase.kjson.JsonObject
 import java.net.URI
@@ -45,6 +46,9 @@ public object GeoJson {
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {
+        if (crsObject.isNull("type")) {
+            return UnknownCoordinateReferenceSystem()
+        }
         val type = crsObject.getString("type") ?: return null
         return when (type) {
             "name" -> parseCrsName(crsObject)
