@@ -34,6 +34,7 @@ public object GeoJson {
 
         return when (type) {
             "Point" -> parsePoint(geoObject, crs, bbox)
+            "MultiPoint" -> parseMutliPoint(geoObject, crs, bbox)
             else -> null
         }
     }
