@@ -6,6 +6,7 @@ import edu.csh.chase.kgeojson.coordinatereferencesystem.LinkedCoordinateReferenc
 import edu.csh.chase.kgeojson.coordinatereferencesystem.NamedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.UnknownCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.models.lineFromJson
+import edu.csh.chase.kgeojson.models.linesFromJson
 import edu.csh.chase.kgeojson.models.positionFromJson
 import edu.csh.chase.kgeojson.models.positionsFromJson
 import edu.csh.chase.kjson.JsonArray
@@ -59,6 +60,12 @@ public object GeoJson {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
         val line = lineFromJson(coordinates) ?: return null
         return GeoJsonLineString(line, geoObject, crs, bbox)
+    }
+
+    private fun parseMutliLine(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonMultiLineString? {
+        val coordinates = geoObject.getJsonArray("coordinates") ?: return null
+        val lines = linesFromJson(coordinates) ?: return null
+        return GeoJsonMultiLineString(lines, geoObject, crs, bbox)
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {

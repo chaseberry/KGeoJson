@@ -24,3 +24,14 @@ fun lineFromJson(positionArray: JsonArray): Line? {
     val arr = positionsFromJson(positionArray) ?: return null
     return Line(arr)
 }
+
+fun linesFromJson(positionArray: JsonArray): Array<Line>? {
+    val lines = positionArray.map {
+        if (it is JsonArray) {
+            lineFromJson(it) ?: return null
+        } else {
+            return null
+        }
+    }.filterNotNull()
+    return Array(lines.size()) { lines[it] }
+}
