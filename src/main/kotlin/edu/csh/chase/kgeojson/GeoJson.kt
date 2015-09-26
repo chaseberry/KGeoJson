@@ -5,8 +5,9 @@ import edu.csh.chase.kgeojson.coordinatereferencesystem.CoordinateReferenceSyste
 import edu.csh.chase.kgeojson.coordinatereferencesystem.LinkedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.NamedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.UnknownCoordinateReferenceSystem
-import edu.csh.chase.kgeojson.models.Line
+import edu.csh.chase.kgeojson.models.lineFromJson
 import edu.csh.chase.kgeojson.models.positionFromJson
+import edu.csh.chase.kgeojson.models.positionsFromJson
 import edu.csh.chase.kjson.JsonArray
 import edu.csh.chase.kjson.JsonObject
 import java.net.URI
@@ -50,26 +51,14 @@ public object GeoJson {
 
     private fun parseMutliPoint(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonMultiPoint? {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
-        val points = coordinates.map {
-            if (it is JsonArray) {
-                positionFromJson(it) ?: return null
-            } else {
-                return null
-            }
-        }.filterNotNull()
-        return GeoJsonMultiPoint(Array(points.size()) { points[it] }, geoObject, crs, bbox)
+        val points = positionsFromJson(coordinates) ?: return null
+        return GeoJsonMultiPoint(points, geoObject, crs, bbox)
     }
 
     private fun parseLine(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonLineString? {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
-        val points = coordinates.map {
-            if (it is JsonArray) {
-                positionFromJson(it) ?: return null
-            } else {
-                return null
-            }
-        }.filterNotNull()
-        return GeoJsonLineString(Line(Array(points.size()) { points[it] }), geoObject, crs, bbox)
+        val line = lineFromJson(coordinates) ?: return null
+        return GeoJsonLineString(line, geoObject, crs, bbox)
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {

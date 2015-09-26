@@ -8,3 +8,19 @@ fun positionFromJson(positionArray: JsonArray): Position? {
     val z = positionArray.getDouble(2)
     return Position(x, y, z)
 }
+
+fun positionsFromJson(positionArray: JsonArray): Array<Position>? {
+    val points = positionArray.map {
+        if (it is JsonArray) {
+            positionFromJson(it) ?: return null
+        } else {
+            return null
+        }
+    }.filterNotNull()
+    return Array(points.size()) { points[it] }
+}
+
+fun lineFromJson(positionArray: JsonArray): Line? {
+    val arr = positionsFromJson(positionArray) ?: return null
+    return Line(arr)
+}
