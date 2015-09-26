@@ -7,6 +7,9 @@ import edu.csh.chase.kjson.JsonObject
 class GeoJsonMultiPoint(val points: Array<Position>,
                         properties: JsonObject,
                         crs: CoordinateReferenceSystem? = null,
-                        boundingBox: BoundingBox? = null) : GeoJsonBase(GeoJsonType.MultiPoint, crs, boundingBox, properties) {
+                        boundingBox: BoundingBox? = null) :
+        GeoJsonBase(GeoJsonType.MultiPoint, crs, boundingBox, properties), Iterable<Position> {
+
+    override fun iterator(): Iterator<Position> = points.iterator()
 
 }
