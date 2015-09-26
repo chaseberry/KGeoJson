@@ -1,6 +1,6 @@
 package edu.csh.chase.kgeojson.boundingbox
 
-import edu.csh.chase.kgeojson.Position
+import edu.csh.chase.kgeojson.models.Position
 
 public data class BoundingBox(val bottomLeft: Position, val topRight: Position) {
 

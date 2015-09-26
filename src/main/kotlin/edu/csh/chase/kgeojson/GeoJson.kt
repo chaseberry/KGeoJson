@@ -5,6 +5,8 @@ import edu.csh.chase.kgeojson.coordinatereferencesystem.CoordinateReferenceSyste
 import edu.csh.chase.kgeojson.coordinatereferencesystem.LinkedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.NamedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.UnknownCoordinateReferenceSystem
+import edu.csh.chase.kgeojson.models.Line
+import edu.csh.chase.kgeojson.models.positionFromJson
 import edu.csh.chase.kjson.JsonArray
 import edu.csh.chase.kjson.JsonObject
 import java.net.URI

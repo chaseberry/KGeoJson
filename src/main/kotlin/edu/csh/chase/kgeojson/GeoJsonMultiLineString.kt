@@ -2,6 +2,7 @@ package edu.csh.chase.kgeojson
 
 import edu.csh.chase.kgeojson.boundingbox.BoundingBox
 import edu.csh.chase.kgeojson.coordinatereferencesystem.CoordinateReferenceSystem
+import edu.csh.chase.kgeojson.models.Line
 import edu.csh.chase.kjson.JsonObject
 
 class GeoJsonMultiLineString(val lines: Array<Line>,

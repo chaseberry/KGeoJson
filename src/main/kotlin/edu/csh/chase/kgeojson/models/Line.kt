@@ -1,4 +1,4 @@
-package edu.csh.chase.kgeojson
+package edu.csh.chase.kgeojson.models
 
 data class Line(val points: Array<Position>) : Iterable<Position> {
 
