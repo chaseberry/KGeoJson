@@ -40,6 +40,7 @@ public object GeoJson {
             "Point" -> parsePoint(geoObject, crs, bbox)
             "MultiPoint" -> parseMutliPoint(geoObject, crs, bbox)
             "LineString" -> parseLine(geoObject, crs, bbox)
+            "MultiLineString" -> parseMutliLine(geoObject, crs, bbox)
             else -> null
         }
     }
