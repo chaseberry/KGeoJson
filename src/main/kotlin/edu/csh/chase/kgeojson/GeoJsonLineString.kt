@@ -17,4 +17,5 @@ class GeoJsonLineString(val line: Line,
 
     fun get(index: Int): Position = line[index]
 
+
 }
