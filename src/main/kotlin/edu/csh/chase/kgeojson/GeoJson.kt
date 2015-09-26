@@ -35,6 +35,7 @@ public object GeoJson {
         return when (type) {
             "Point" -> parsePoint(geoObject, crs, bbox)
             "MultiPoint" -> parseMutliPoint(geoObject, crs, bbox)
+            "LineString" -> parseLine(geoObject, crs, bbox)
             else -> null
         }
     }
@@ -49,12 +50,24 @@ public object GeoJson {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
         val points = coordinates.map {
             if (it is JsonArray) {
-                positionFromJson(it)
+                positionFromJson(it) ?: return null
             } else {
-                null
+                return null
             }
         }.filterNotNull()
         return GeoJsonMultiPoint(Array(points.size()) { points[it] }, geoObject, crs, bbox)
+    }
+
+    private fun parseLine(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonLineString? {
+        val coordinates = geoObject.getJsonArray("coordinates") ?: return null
+        val points = coordinates.map {
+            if (it is JsonArray) {
+                positionFromJson(it) ?: return null
+            } else {
+                return null
+            }
+        }.filterNotNull()
+        return GeoJsonLineString(Line(Array(points.size()) { points[it] }), geoObject, crs, bbox)
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {
