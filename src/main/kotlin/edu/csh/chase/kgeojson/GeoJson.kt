@@ -5,10 +5,7 @@ import edu.csh.chase.kgeojson.coordinatereferencesystem.CoordinateReferenceSyste
 import edu.csh.chase.kgeojson.coordinatereferencesystem.LinkedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.NamedCoordinateReferenceSystem
 import edu.csh.chase.kgeojson.coordinatereferencesystem.UnknownCoordinateReferenceSystem
-import edu.csh.chase.kgeojson.models.lineFromJson
-import edu.csh.chase.kgeojson.models.linesFromJson
-import edu.csh.chase.kgeojson.models.positionFromJson
-import edu.csh.chase.kgeojson.models.positionsFromJson
+import edu.csh.chase.kgeojson.models.*
 import edu.csh.chase.kjson.JsonArray
 import edu.csh.chase.kjson.JsonObject
 import java.net.URI
@@ -40,7 +37,8 @@ public object GeoJson {
             "Point" -> parsePoint(geoObject, crs, bbox)
             "MultiPoint" -> parseMutliPoint(geoObject, crs, bbox)
             "LineString" -> parseLine(geoObject, crs, bbox)
-            "MultiLineString" -> parseMutliLine(geoObject, crs, bbox)
+            "MultiLineString" -> parseMultiLine(geoObject, crs, bbox)
+            "Polygon" -> parsePolygon(geoObject, crs, bbox)
             else -> null
         }
     }
@@ -63,10 +61,16 @@ public object GeoJson {
         return GeoJsonLineString(line, geoObject, crs, bbox)
     }
 
-    private fun parseMutliLine(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonMultiLineString? {
+    private fun parseMultiLine(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonMultiLineString? {
         val coordinates = geoObject.getJsonArray("coordinates") ?: return null
         val lines = linesFromJson(coordinates) ?: return null
         return GeoJsonMultiLineString(lines, geoObject, crs, bbox)
+    }
+
+    private fun parsePolygon(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonPolygon? {
+        val coordinates = geoObject.getJsonArray("coordinates") ?: return null
+        val poly = polygonFromJson(coordinates) ?: return null
+        return GeoJsonPolygon(poly, geoObject, crs, bbox)
     }
 
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {

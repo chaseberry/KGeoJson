@@ -35,3 +35,23 @@ fun linesFromJson(positionArray: JsonArray): Array<Line>? {
     }.filterNotNull()
     return Array(lines.size()) { lines[it] }
 }
+
+fun polygonFromJson(positionArray: JsonArray): Polygon? {
+    if (positionArray.size < 1) {
+        return null
+    }
+    val lineArray = positionArray.getJsonArray(0) ?: return null
+    val poly = lineFromJson(lineArray) ?: return null
+    if (!poly.isLinearRing()) {
+        return null
+    }
+    if (positionArray.size == 1) {
+        return Polygon(poly, emptyArray())
+    }
+    val json = JsonArray()
+    for (z in 1..positionArray.size - 1) {
+        json.put(positionArray[z])
+    }
+    val holes = linesFromJson(json) ?: emptyArray()
+    return Polygon(poly, holes)
+}
