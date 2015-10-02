@@ -15,7 +15,7 @@ class GeoJsonLineString(val line: Line,
 
     override fun iterator(): Iterator<Position> = line.iterator()
 
-    fun get(index: Int): Position = line[index]
+    operator fun get(index: Int): Position = line[index]
 
 
 }

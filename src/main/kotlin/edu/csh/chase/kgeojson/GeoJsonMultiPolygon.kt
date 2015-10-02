@@ -13,6 +13,6 @@ class GeoJsonMultiPolygon(val polygons: Array<Polygon>,
 
     override fun iterator(): Iterator<Polygon> = polygons.iterator()
 
-    fun get(index: Int): Polygon = polygons[index]
+    operator fun get(index: Int): Polygon = polygons[index]
 
 }

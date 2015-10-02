@@ -15,7 +15,7 @@ abstract class GeoJsonBase(val type: GeoJsonType, //What type of GeoJson this is
     }
 
     //TODO is this needed?
-    fun get(key: String): Any? {
+    operator fun get(key: String): Any? {
         return properties[key]
     }
 
