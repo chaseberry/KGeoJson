@@ -55,3 +55,14 @@ fun polygonFromJson(positionArray: JsonArray): Polygon? {
     val holes = linesFromJson(json) ?: emptyArray()
     return Polygon(poly, holes)
 }
+
+fun polygonsFromJson(positionArray: JsonArray): Array<Polygon>? {
+    val lines = positionArray.map {
+        if (it is JsonArray) {
+            polygonFromJson(it) ?: return null
+        } else {
+            return null
+        }
+    }.filterNotNull()
+    return Array(lines.size()) { lines[it] }
+}

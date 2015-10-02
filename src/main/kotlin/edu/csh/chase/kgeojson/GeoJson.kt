@@ -73,6 +73,12 @@ public object GeoJson {
         return GeoJsonPolygon(poly, geoObject, crs, bbox)
     }
 
+    private fun parseMultiPolygon(geoObject: JsonObject, crs: CoordinateReferenceSystem?, bbox: BoundingBox?): GeoJsonMultiPolygon? {
+        val coordinates = geoObject.getJsonArray("coordinates") ?: return null
+        val poly = polygonsFromJson(coordinates) ?: return null
+        return GeoJsonMultiPolygon(poly, geoObject, crs, bbox)
+    }
+
     fun parseCoordinateReferenceSystem(crsObject: JsonObject): CoordinateReferenceSystem? {
         val type = crsObject.getString("type") ?: return null
         return when (type) {
